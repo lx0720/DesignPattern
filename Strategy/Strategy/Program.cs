@@ -31,6 +31,7 @@ namespace Strategy_DP
         }
     }
     ///3.具体的策略角色
+    ///冒牌排序 时间 n^2 空间 1 
     public class BubbleSortStrategy : Strategy
     {
         bool isOk;
@@ -54,13 +55,92 @@ namespace Strategy_DP
             return list;
         }
     }
+    ///选择排序 时间 n^2 空间 1 
+    public class SelectSortStrategy : Strategy
+    {
+        public override List<int> AlgorithmInterface(List<int> list)
+        {
+            for(int i=0;i<list.Count-1;i++)
+            {
+                int min = i;
+                for(int j = i;j<list.Count;j++)
+                {
+                    if(list[min] > list[j])
+                    {
+                        min = j;
+                    }
+                }
+                if(min != i)
+                {
+                    list[i] = list[i] + list[min];
+                    list[min] = list[i] - list[min];
+                    list[i] = list[i] - list[min];
+                }
+            }
+            return list;
+        }
+    }
+    ///插入排序 时间 n^2 空间 1 
+    public class InsertSortStrategy : Strategy
+    {
+        public override List<int> AlgorithmInterface(List<int> list)
+        {
+            for(int i=1;i<list.Count;i++)
+            {
+                int temp = list[i];
+                for(int j=i-1;j>=0;j--)
+                {
+                    if(list[j] > temp)
+                    {
+                        list[j + 1] = list[j];
+                        list[j] = temp;
+                    }
+                }
+            }
+            return list;
+        }
+    }
+    ///快速排序 时间 nlogn 空间 logn
+    public class QuickSortStrategy : Strategy
+    {
+        public override List<int> AlgorithmInterface(List<int> list)
+        {
+            QuickSort(0, list.Count - 1, list);
+            return list;
+        }
+        private void QuickSort(int l,int r,List<int> list)
+        {
+            if(l < r)
+            {
+                int mid = Sort(l, r, list);
+                QuickSort(l, mid - 1, list);
+                QuickSort(mid + 1, r, list);
+            }
+        }
+        private int Sort(int l,int r,List<int> list)
+        {
+            int temp = list[l];
+            while(l < r)
+            {
+                while (l < r && list[r] >= temp)
+                    r--;
+                list[l] = list[r];
+                while (l < r && list[l] <= temp)
+                    l++;
+                list[r] = list[l];
+            }
+            list[l] = temp;
+            return l;
+        }
+       
+    }
     ///Main函数
     public class Test
     {
         static void Main()
         {
             List<int> list = new List<int>() { 7, 2, 6, 1, 5, 9, 3, 4 ,8};
-            StrategyContext strategyContext = new StrategyContext(new BubbleSortStrategy());
+            StrategyContext strategyContext = new StrategyContext(new QuickSortStrategy()) ;
             strategyContext.StrategyInterface(list);
         }
     }
