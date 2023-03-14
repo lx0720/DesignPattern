@@ -21,16 +21,14 @@ namespace Strategy_DP
             this.strategy = strategy;
         }
 
-        public void StrategyInterface(List<int> list)
+        public List<int> StrategyInterface(List<int> list)
         {
-            List<int> sortList = strategy.AlgorithmInterface(list);
-            foreach(var i in sortList)
-            {
-                Console.Write(i);
-            }
+            return strategy.AlgorithmInterface(list);
+           
         }
     }
     ///3.具体的策略角色
+
     ///冒牌排序 时间 n^2 空间 1 
     public class BubbleSortStrategy : Strategy
     {
@@ -108,22 +106,25 @@ namespace Strategy_DP
             QuickSort(0, list.Count - 1, list);
             return list;
         }
-        private void QuickSort(int l,int r,List<int> list)
+        ///递归
+        public void QuickSort(int l, int r, List<int> list)
         {
-            if(l < r)
+            if (l < r)
             {
                 int mid = Sort(l, r, list);
                 QuickSort(l, mid - 1, list);
                 QuickSort(mid + 1, r, list);
             }
         }
-        private int Sort(int l,int r,List<int> list)
+        /// 实际排序的函数
+        public int Sort(int l,int r,List<int> list)
         {
-            int temp = list[l];
+            int temp = list[l]; //基准
+
             while(l < r)
             {
                 while (l < r && list[r] >= temp)
-                    r--;
+                    r--;   //右哨兵左移
                 list[l] = list[r];
                 while (l < r && list[l] <= temp)
                     l++;
@@ -132,7 +133,6 @@ namespace Strategy_DP
             list[l] = temp;
             return l;
         }
-       
     }
     ///Main函数
     public class Test
@@ -141,7 +141,12 @@ namespace Strategy_DP
         {
             List<int> list = new List<int>() { 7, 2, 6, 1, 5, 9, 3, 4 ,8};
             StrategyContext strategyContext = new StrategyContext(new QuickSortStrategy()) ;
-            strategyContext.StrategyInterface(list);
+            List<int> list1 = strategyContext.StrategyInterface(list);
+            foreach(var i in list1)
+            {
+                Console.Write(i);
+            }
+            Console.WriteLine();
         }
     }
 }

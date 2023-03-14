@@ -40,7 +40,6 @@ namespace Observer_DP
     {
         public abstract void Update();
     }
-
     //3.具体的被观察者
     public class Teacher : Subject
     {
@@ -77,17 +76,16 @@ namespace Observer_DP
             return teacher;
         }
     }
-
+    //5.测试类
     public class Test
     {
         static void Main()
         {
             Teacher teacher = new Teacher();
-            teacher.AddObserver(new Student(teacher, "无语"));
-            teacher.AddObserver(new Student(teacher, "生气"));
+            teacher.AddObserver(new Student(teacher, "小明"));
+            teacher.AddObserver(new Student(teacher, "小红"));
             teacher.SetTeacherState("开心");
             teacher.Notify();
         }
     }
-
 }
