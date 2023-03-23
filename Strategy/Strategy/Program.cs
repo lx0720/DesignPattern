@@ -99,6 +99,12 @@ namespace Strategy_DP
         }
     }
     ///快速排序 时间 nlogn 空间 logn
+    ///通过一趟排序将要排序的数据分割成独立的两部分，其中一个部分的所有数据都比另外一个部分份所有数据要小，
+    ///然后在按次方法对这两部分分别进行快排，整个排序过程可以递归进行，以此达到数据有序。
+    ///快排时间复杂度 = 递归时间复杂度
+    ///最优:每一次取到的元素都刚好平分整个数组
+    ///最差:每一次取到的元素就是数组中的最大值或者最小值(冒泡)
+    ///基本有序时就不要用快排了
     public class QuickSortStrategy : Strategy
     {
         public override List<int> AlgorithmInterface(List<int> list)
@@ -106,7 +112,6 @@ namespace Strategy_DP
             QuickSort(0, list.Count - 1, list);
             return list;
         }
-        ///递归
         public void QuickSort(int l, int r, List<int> list)
         {
             if (l < r)
@@ -116,15 +121,13 @@ namespace Strategy_DP
                 QuickSort(mid + 1, r, list);
             }
         }
-        /// 实际排序的函数
-        public int Sort(int l,int r,List<int> list)
+        public int Sort(int l, int r, List<int> list)
         {
-            int temp = list[l]; //基准
-
-            while(l < r)
+            int temp = list[l]; 
+            while (l < r)
             {
                 while (l < r && list[r] >= temp)
-                    r--;   //右哨兵左移
+                    r--; 
                 list[l] = list[r];
                 while (l < r && list[l] <= temp)
                     l++;
